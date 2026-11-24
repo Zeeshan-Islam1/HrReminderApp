@@ -1,0 +1,9 @@
+{
+  "name": "iLiveSolution HR Reminder System",
+  "short_name": "iLiveSolution HR",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary"
+}

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#2563eb">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="iLiveSolution HR">
+
+    <title>iLiveSolution HR Reminder System</title>
+
+    <link rel="manifest" href="./manifest.json">
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="./icons/icon-192.png"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="./hr.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">iL</div>
+
+            <div class="brand-text">
+                <div class="brand-name">iLiveSolution</div>
+                <div class="brand-subtitle">HR Reminder System</div>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                WORKSPACE
+            </div>
+
+
+            <!-- DASHBOARD -->
+
+            <div
+                class="nav-parent"
+                data-menu="dashboardMenu"
+            >
+
+                <button
+                    type="button"
+                    class="nav-parent-btn"
+                >
+
+                    <span class="nav-icon">▦</span>
+
+                    <span class="nav-label">
+                        Dashboard
+                    </span>
+
+                    <span class="nav-arrow">›</span>
+
+                </button>
+
+
+                <div class="nav-submenu">
+
+                    <button
+                        type="button"
+                        class="nav-item active"
+                        data-page="dashboardSection"
+                        data-dashboard-filter="overview"
+                    >
+                        Overview
+                    </button>
+
+                    <button
+                        type="button"
+                        class="nav-item"
+                        data-page="remindersSection"
+                        data-dashboard-filter="today"
+                    >
+                        Due Today
+                    </button>
+
+                    <button
+                        type="button"
+                        class="nav-item"
+                        data-page="remindersSection"
+                        data-dashboard-filter="overdue"
+                    >
+                        Overdue
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- REMINDERS -->
+
+            <div
+                class="nav-parent"
+                data-menu="reminderMenu"
+            >
+
+                <button
+                    type="button"
+                    class="nav-parent-btn"
+                >
+
+                    <span class="nav-icon">◷</span>
+
+                    <span class="nav-label">
+                        Reminders
+                    </span>
+
+                    <span class="nav-arrow">›</span>
+
+                </button>
+
+
+                <div class="nav-submenu">
+
+                    <button
+                        type="button"
+                        class="nav-item"
+                        data-page="remindersSection"
+                        data-reminder-view="all"
+                    >
+                        All Reminders
+                    </button>
+
+                    <button
+                        type="button"
+                        class="nav-item"
+                        data-page="remindersSection"
+                        data-reminder-view="pending"
+                    >
+                        Pending
+                    </button>
+
+                    <button
+                        type="button"
+                        class="nav-item"
+                        data-page="remindersSection"
+                        data-reminder-view="completed"
+                    >
+                        Completed
+                    </button>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span>System Active</span>
+            </div>
+
+            <div class="sidebar-version">
+                iLiveSolution HR v1.0
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <h1 id="pageTitle">
+                    HR Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <!-- Notifications -->
+
+                <button
+                    type="button"
+                    id="notificationBtn"
+                    class="icon-btn"
+                    title="Notifications"
+                    aria-label="Notifications"
+                >
+
+                    <span class="notification-icon">
+                        ♢
+                    </span>
+
+                    <span
+                        id="notificationIndicator"
+                        class="notification-indicator"
+                        style="display:none;"
+                    ></span>
+
+                </button>
+
+
+                <!-- Theme -->
+
+                <select
+                    id="themeSelect"
+                    class="theme-select"
+                    aria-label="Select theme"
+                >
+
+                    <option value="system">
+                        System
+                    </option>
+
+                    <option value="light">
+                        Light
+                    </option>
+
+                    <option value="dark">
+                        Dark
+                    </option>
+
+                </select>
+
+
+                <!-- Add Reminder -->
+
+                <button
+                    type="button"
+                    id="addReminderBtn"
+                    class="primary-btn"
+                >
+                    + Add Reminder
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+
+        <div class="page-content">
+
+
+            <!-- =================================================
+                 DASHBOARD SECTION
+            ================================================== -->
+
+            <section
+                id="dashboardSection"
+                class="page-section active"
+            >
+
+                <div class="dashboard-header">
+
+                    <div>
+
+                        <h2>
+                            Dashboard
+                        </h2>
+
+                        <p id="dashboardDate">
+                            Today
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-label">
+                            Total Reminders
+                        </div>
+
+                        <div
+                            id="totalReminders"
+                            class="stat-card-value"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-label">
+                            Pending
+                        </div>
+
+                        <div
+                            id="pendingReminders"
+                            class="stat-card-value"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-label">
+                            Due Today
+                        </div>
+
+                        <div
+                            id="todayReminders"
+                            class="stat-card-value"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-label">
+                            Overdue
+                        </div>
+
+                        <div
+                            id="overdueReminders"
+                            class="stat-card-value"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DASHBOARD GRID -->
+
+                <div class="dashboard-grid">
+
+
+                    <!-- UPCOMING REMINDERS -->
+
+                    <div class="dashboard-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <h3>
+                                    Upcoming Reminders
+                                </h3>
+
+                                <p>
+                                    Your next scheduled reminders
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                id="viewAllBtn"
+                                class="text-btn"
+                            >
+                                View All
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="upcomingList"
+                            class="upcoming-list"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="dashboard-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <h3>
+                                    Quick Actions
+                                </h3>
+
+                                <p>
+                                    Frequently used HR actions
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="quick-actions">
+
+
+                            <!-- EMPLOYEE REMINDER -->
+
+                            <button
+                                type="button"
+                                id="quickAddEmployeeBtn"
+                                class="quick-action-btn"
+                            >
+
+                                <span>+</span>
+
+                                <div>
+
+                                    <strong>
+                                        Add Employee Reminder
+                                    </strong>
+
+                                    <small>
+                                        Create an employee reminder
+                                    </small>
+
+                                </div>
+
+                            </button>
+
+
+                            <!-- TASK REMINDER -->
+
+                            <button
+                                type="button"
+                                id="quickAddTaskBtn"
+                                class="quick-action-btn"
+                            >
+
+                                <span>+</span>
+
+                                <div>
+
+                                    <strong>
+                                        Add Task Reminder
+                                    </strong>
+
+                                    <small>
+                                        Create a general HR task
+                                    </small>
+
+                                </div>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DUE NOW -->
+
+                <div
+                    id="dueNowCard"
+                    class="due-now-card"
+                    style="display:none;"
+                >
+
+                    <div>
+
+                        <h3 id="dueNowTitle">
+                            Reminder Due
+                        </h3>
+
+                        <p id="dueNowDescription">
+                            A reminder is due now.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="stopAlarmBtn"
+                        class="secondary-btn"
+                    >
+                        Stop Alarm
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 REMINDERS SECTION
+            ================================================== -->
+
+            <section
+                id="remindersSection"
+                class="page-section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            HR Reminders
+                        </h2>
+
+                        <p>
+                            Manage employee and task reminders.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="addReminderBtn2"
+                        class="primary-btn"
+                    >
+                        + Add Reminder
+                    </button>
+
+                </div>
+
+
+                <!-- FILTER BAR -->
+
+                <div class="filter-bar">
+
+                    <!-- SEARCH -->
+
+                    <div class="search-box">
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search reminders..."
+                        >
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="completed">
+                            Completed
+                        </option>
+
+                    </select>
+
+
+                    <!-- DEPARTMENT -->
+
+                    <select id="departmentFilter">
+
+                        <option value="all">
+                            All Departments
+                        </option>
+
+                    </select>
+
+
+                    <!-- EXPORT -->
+
+                    <button
+                        type="button"
+                        id="exportCsvBtn"
+                        class="secondary-btn"
+                    >
+                        Export CSV
+                    </button>
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div class="table-card">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Reminder</th>
+
+                                    <th>Type</th>
+
+                                    <th>Employee</th>
+
+                                    <th>Department</th>
+
+                                    <th>Date</th>
+
+                                    <th>Time</th>
+
+                                    <th>Status</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="remindersTableBody"
+                            ></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     REMINDER MODAL
+========================================================= -->
+
+<div
+    id="reminderModal"
+    class="modal"
+    style="display:none;"
+>
+
+    <div class="modal-backdrop"></div>
+
+
+    <div class="modal-dialog">
+
+        <!-- MODAL HEADER -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Add Reminder
+                </h2>
+
+                <p>
+                    Create or update an HR reminder.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="closeModalBtn"
+                class="modal-close"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form id="reminderForm">
+
+            <input
+                type="hidden"
+                id="reminderId"
+            >
+
+
+            <!-- REMINDER TYPE -->
+
+            <div class="form-group">
+
+                <label>
+                    Reminder Type
+                </label>
+
+
+                <div class="radio-group">
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="reminderType"
+                            value="employee"
+                            checked
+                        >
+
+                        Employee
+
+                    </label>
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="reminderType"
+                            value="task"
+                        >
+
+                        Task
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMPLOYEE FIELDS -->
+
+            <div id="employeeFields">
+
+                <div class="form-row">
+
+
+                    <!-- EMPLOYEE NAME -->
+
+                    <div class="form-group">
+
+                        <label for="employeeName">
+                            Employee Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employeeName"
+                        >
+
+                    </div>
+
+
+                    <!-- EMPLOYEE ID -->
+
+                    <div class="form-group">
+
+                        <label for="employeeId">
+                            Employee ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employeeId"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="form-group">
+
+                    <label for="department">
+                        Department
+                    </label>
+
+                    <input
+                        type="text"
+                        id="department"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- REMINDER -->
+
+            <div class="form-group">
+
+                <label for="reminderText">
+                    Reminder
+                </label>
+
+                <input
+                    type="text"
+                    id="reminderText"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DATE + TIME -->
+
+            <div class="form-row">
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label for="reminderDate">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="reminderDate"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div class="form-group">
+
+                    <label for="reminderTime">
+                        Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="reminderTime"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- NOTES -->
+
+            <div class="form-group">
+
+                <label for="reminderNotes">
+                    Notes
+                </label>
+
+                <textarea
+                    id="reminderNotes"
+                    rows="3"
+                ></textarea>
+
+            </div>
+
+
+            <!-- MODAL FOOTER -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    id="cancelReminderBtn"
+                    class="secondary-btn"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Save Reminder
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+    style="display:none;"
+>
+
+    <div class="toast-content">
+
+        <strong id="toastTitle">
+            Success
+        </strong>
+
+        <p id="toastMessage">
+            Done.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="./script.js"></script>
+
+
+<!-- =========================================================
+     SERVICE WORKER
+========================================================= -->
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function () {
+
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(function () {
+
+                console.log(
+                    "iLiveSolution HR Service Worker registered successfully."
+                );
+
+            })
+            .catch(function (error) {
+
+                console.error(
+                    "Service Worker registration failed:",
+                    error
+                );
+
+            });
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
